@@ -6,6 +6,7 @@ import java.io.OutputStream;
 class TextAreaOutputStream extends OutputStream {
 
     private JTextPane textArea;
+    private String buffer = "";
 
     public TextAreaOutputStream(JTextPane textArea) {
         this.textArea = textArea;
@@ -13,7 +14,12 @@ class TextAreaOutputStream extends OutputStream {
 
     @Override
     public void write(int b) {
-        textArea.setText(textArea.getText() + (char) b);
+    	buffer += (char) b;
+    	
+    	if(buffer.length() > 100) {
+            textArea.setText(textArea.getText() + buffer);
+            buffer = "";
+    	} 	
     }
 
 }
