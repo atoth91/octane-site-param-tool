@@ -340,15 +340,17 @@ public class Frame extends JFrame {
 				"Would you like to save the following changes?", dialogButton);
 
 		if (dialogResult == 0) {
-			try {
-				shouldEnableUi(false);
-				new Thread(() -> {
+			shouldEnableUi(false);
+			new Thread(() -> {
+				try {
 					ParamService.saveParams(url, username, password, siteParamTableModel.getDirtySiteParams());
-					shouldEnableUi(true);
-				}).start();
-			} catch (Exception ex) {
-				textPaneLogs.setText(textPaneLogs.getText() + ex.toString() + "\n");
-			}
+				} catch (Exception ex) {
+					SwingUtilities.invokeLater(() -> {
+						textPaneLogs.setText(textPaneLogs.getText() + ex.toString() + "\n");
+					});
+				}
+				shouldEnableUi(true);
+			}).start();
 		}
 
 		load();
