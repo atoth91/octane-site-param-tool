@@ -351,9 +351,9 @@ public class Frame extends JFrame {
 				}
 				shouldEnableUi(true);
 			}).start();
+			
+			load();
 		}
-
-		load();
 	}
 
 }
